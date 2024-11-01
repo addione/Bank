@@ -1,15 +1,16 @@
 package main
 
-import "fmt"
-
 // func main() {
 // 	fmt.Println("hello")
 // }
 
 func main() {
-	const test = "aknaksnk"
-	fmt.Println("this is madsdsn")
-	newfun()
-	fmt.Printf("profit is %.3f \n", calculateProfit(1003, 910, 5.1))
-	fmt.Println(calculateInvestment(1000, 12, 5.5))
+	connectMongo()
+
+	handle()
+	// const test = "aknaksnk"
+	// fmt.Println("this is madsdsn")
+	// newfun()
+	// fmt.Printf("profit is %.3f \n", calculateProfit(1003, 910, 5.1))
+	// fmt.Println(calculateInvestment(1000, 12, 5.5))
 }
