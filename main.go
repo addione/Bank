@@ -1,10 +1,22 @@
 package main
 
-// func main() {
-// 	fmt.Println("hello")
-// }
+import "fmt"
 
 func main() {
+	var userChoice int
+	fmt.Println("Welcome to the application")
+	fmt.Println(`What would you like to do
+				1. Populate Database
+				2. Use Application
+	`)
+
+	fmt.Scan(&userChoice)
+
+	switch userChoice {
+	case 1:
+		handle()
+	}
+
 	connectMongo()
 
 	handle()
