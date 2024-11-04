@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/0x6flab/namegenerator"
-	models "github.com/addione/New/Model"
+	models "github.com/addione/New/models"
 )
 
 func loginUser() {
