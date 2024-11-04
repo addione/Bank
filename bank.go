@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/0x6flab/namegenerator"
-	models "github.com/addione/New/models"
+	"github.com/addione/New/models"
 )
 
 func loginUser() {
@@ -30,7 +30,10 @@ func createUsers(numberOfUsers int) {
 func createNewUser() {
 	generator := namegenerator.NewGenerator()
 	client := getMongoClient("New", "User")
+
 	user := models.User{Name: generator.Generate(), Pass: "pass", Balance: 1000}
+
+	// user := User{Name: generator.Generate(), Pass: "pass", Balance: 1000}
 	result, err := client.InsertOne(context.TODO(), user)
 	if err != nil {
 		panic(err)

@@ -17,8 +17,6 @@ func main() {
 		handle()
 	}
 
-	connectMongo()
-
 	handle()
 	// const test = "aknaksnk"
 	// fmt.Println("this is madsdsn")
