@@ -1,5 +1,5 @@
 // Connects to MongoDB and sets a Stable API version
-package main
+package dependencies
 
 import (
 	"context"
@@ -12,7 +12,14 @@ import (
 // Replace the placeholder with your Atlas connection string
 const uri = "mongodb://root:secret@localhost:27017/?timeoutMS=5000"
 
-func connectMongo() {
+type CommonMongo struct {
+}
+
+func NewCommonMongo() (cm *CommonMongo) {
+	return &CommonMongo{}
+}
+
+func (cm *CommonMongo) ConnectMongo() {
 
 	// Use the SetServerAPIOptions() method to set the Stable API version to 1
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
@@ -38,12 +45,12 @@ func connectMongo() {
 	// fmt.Println("Pinged your deployment. You successfully connected to MongoDB!")
 }
 
-func getMongoClient(dbName string, collectionName string) *mongo.Collection {
+func (cm *CommonMongo) GetMongoClient(dbName string, collectionName string) *mongo.Collection {
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
 	opts := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPI)
 
 	client, _ := mongo.Connect(context.TODO(), opts)
 
-	return client.Database("New").Collection("User")
+	return client.Database(dbName).Collection(collectionName)
 
 }

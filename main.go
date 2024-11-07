@@ -3,21 +3,23 @@ package main
 import "fmt"
 
 func main() {
+
+	structs()
+
 	var userChoice int
 	fmt.Println("Welcome to the application")
-	fmt.Println(`What would you like to do
-				1. Populate Database
-				2. Use Application
+	fmt.Println(`What defines your role
+1. Customer
+2. Employee
 	`)
-
 	fmt.Scan(&userChoice)
-
+	fmt.Println(userChoice)
 	switch userChoice {
-	case 1:
-		handle()
+	case 2:
+		bank := newBank()
+		bank.Handle()
 	}
 
-	handle()
 	// const test = "aknaksnk"
 	// fmt.Println("this is madsdsn")
 	// newfun()

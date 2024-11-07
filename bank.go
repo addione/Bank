@@ -1,44 +1,55 @@
 package main
 
 import (
-	"context"
 	"fmt"
 
-	"github.com/0x6flab/namegenerator"
-	"github.com/addione/New/models"
+	"github.com/addione/New/repository"
 )
 
 func loginUser() {
 
 }
 
-func handle() {
+type bank struct {
+	userRepository *repository.UserRepo
+}
+
+func newBank() (b *bank) {
+	ur := repository.NewUserRepository()
+
+	return &bank{
+		userRepository: ur,
+	}
+}
+
+func (b *bank) Handle() {
 	var numberOfUsers int
-	fmt.Println("Enter Numebr of users you want to create: ")
-	fmt.Scan(&numberOfUsers)
-	connectMongo()
-	createUsers(numberOfUsers)
+	var userChoice int
+
+	fmt.Println(`What would you like to do
+	1. Populate Database
+	2. Clean Database
+	2. Use Application
+		`)
+
+	fmt.Scan(&userChoice)
+	switch userChoice {
+	case 1:
+		fmt.Println("Enter Numebr of users you want to create: ")
+		fmt.Scan(&numberOfUsers)
+		b.createUsers(numberOfUsers)
+
+	case 2:
+		b.userRepository.CleanDatabase()
+	}
+
 	return
 }
 
-func createUsers(numberOfUsers int) {
+func (b *bank) createUsers(numberOfUsers int) {
 	for i := 0; i < numberOfUsers; i++ {
-		createNewUser()
+		b.userRepository.CreateNewUser()
 	}
-}
-
-func createNewUser() {
-	generator := namegenerator.NewGenerator()
-	client := getMongoClient("New", "User")
-
-	user := models.User{Name: generator.Generate(), Pass: "pass", Balance: 1000}
-
-	// user := User{Name: generator.Generate(), Pass: "pass", Balance: 1000}
-	result, err := client.InsertOne(context.TODO(), user)
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println(result.InsertedID)
 }
 
 func takeInput() {
