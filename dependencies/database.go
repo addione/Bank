@@ -20,7 +20,7 @@ type CommonMongo struct {
 }
 
 func NewCommonMongo() (cm *CommonMongo) {
-	godotenv.Load(".env")
+	godotenv.Load()
 	uri := os.Getenv("mongouri")
 
 	return &CommonMongo{
