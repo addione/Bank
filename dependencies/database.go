@@ -3,7 +3,9 @@ package dependencies
 
 import (
 	"context"
+	"os"
 
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -11,20 +13,26 @@ import (
 )
 
 // Replace the placeholder with your Atlas connection string
-const uri = "mongodb://root:secret@localhost:27017/?timeoutMS=5000"
+// const uri = "mongodb://root:secret@localhost:27017/?timeoutMS=5000"
 
 type CommonMongo struct {
+	mongoUri string
 }
 
 func NewCommonMongo() (cm *CommonMongo) {
-	return &CommonMongo{}
+	godotenv.Load(".env")
+	uri := os.Getenv("mongouri")
+
+	return &CommonMongo{
+		mongoUri: uri,
+	}
 }
 
 func (cm *CommonMongo) ConnectMongo() {
 
 	// Use the SetServerAPIOptions() method to set the Stable API version to 1
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-	opts := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPI)
+	opts := options.Client().ApplyURI(cm.mongoUri).SetServerAPIOptions(serverAPI)
 
 	// Create a new client and connect to the server
 	client, err := mongo.Connect(context.TODO(), opts)
@@ -48,7 +56,7 @@ func (cm *CommonMongo) ConnectMongo() {
 
 func (cm *CommonMongo) GetMongoClient(dbName string, collectionName string) *mongo.Collection {
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-	opts := options.Client().ApplyURI(uri).SetServerAPIOptions(serverAPI)
+	opts := options.Client().ApplyURI(cm.mongoUri).SetServerAPIOptions(serverAPI)
 
 	client, _ := mongo.Connect(context.TODO(), opts)
 
