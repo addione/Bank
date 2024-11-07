@@ -1,4 +1,4 @@
-package main
+package src
 
 import (
 	"fmt"
@@ -15,8 +15,7 @@ type bank struct {
 }
 
 func newBank() (b *bank) {
-	ur := repository.NewUserRepository()
-
+	ur := repository.NewRepositoryDiContainer().GetUserRepo()
 	return &bank{
 		userRepository: ur,
 	}
@@ -27,9 +26,9 @@ func (b *bank) Handle() {
 	var userChoice int
 
 	fmt.Println(`What would you like to do
-	1. Populate Database
-	2. Clean Database
-	2. Use Application
+1. Populate Database
+2. Clean Database
+3. Use Application
 		`)
 
 	fmt.Scan(&userChoice)
@@ -54,10 +53,10 @@ func (b *bank) createUsers(numberOfUsers int) {
 
 func takeInput() {
 	fmt.Println(`
-	Welcome to the bank
-	what do you want to do?
-	1: Check Balance
-	2: Deposit Money
-	3:Widraw Money
-	4: exit `)
+Welcome to the bank
+what do you want to do?
+1: Check Balance
+2: Deposit Money
+3:Widraw Money
+4: exit `)
 }

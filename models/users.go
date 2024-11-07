@@ -2,6 +2,8 @@ package models
 
 import "time"
 
+const UserCollectionName = "User"
+
 type User struct {
 	Name      string  `json:"name"`
 	Email     string  `json:"email"`
