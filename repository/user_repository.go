@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/0x6flab/namegenerator"
-	"github.com/addione/New/dependencies"
 	"github.com/addione/New/models"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -16,15 +15,11 @@ type UserRepo struct {
 	mongoClient *mongo.Collection
 }
 
-func NewUserRepository() *UserRepo {
-	cm := dependencies.NewCommonMongo().GetMongoClient("New", "User")
-	return &UserRepo{
-		mongoClient: cm,
-	}
-}
+func newUserRepository(rdi *repositorydiContainer) *UserRepo {
 
-func CreateUser() {
-	return
+	return &UserRepo{
+		mongoClient: rdi.mongoClient.GetMongoClient(DBName, models.UserCollectionName),
+	}
 }
 
 func (u *UserRepo) CreateNewUser() {

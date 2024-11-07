@@ -1,10 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/addione/New/src"
+)
 
 func main() {
 
-	structs()
+	// structs()
+
+	sd := src.NewSrcDI()
 
 	var userChoice int
 	fmt.Println("Welcome to the application")
@@ -16,13 +22,6 @@ func main() {
 	fmt.Println(userChoice)
 	switch userChoice {
 	case 2:
-		bank := newBank()
-		bank.Handle()
+		sd.GetBank().Handle()
 	}
-
-	// const test = "aknaksnk"
-	// fmt.Println("this is madsdsn")
-	// newfun()
-	// fmt.Printf("profit is %.3f \n", calculateProfit(1003, 910, 5.1))
-	// fmt.Println(calculateInvestment(1000, 12, 5.5))
 }
