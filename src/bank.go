@@ -3,7 +3,7 @@ package src
 import (
 	"fmt"
 
-	"github.com/addione/New/repository"
+	"github.com/addione/New/manager"
 )
 
 func loginUser() {
@@ -11,13 +11,13 @@ func loginUser() {
 }
 
 type bank struct {
-	userRepository *repository.UserRepo
+	userManager *manager.UserManager
 }
 
 func newBank() (b *bank) {
-	ur := repository.NewRepositoryDiContainer().GetUserRepo()
+	um := manager.NewManagerDIContainer().GetUserManager()
 	return &bank{
-		userRepository: ur,
+		userManager: um,
 	}
 }
 
@@ -39,7 +39,7 @@ func (b *bank) Handle() {
 		b.createUsers(numberOfUsers)
 
 	case 2:
-		b.userRepository.CleanDatabase()
+		b.userManager.CleanDatabase()
 	}
 
 	return
@@ -47,7 +47,7 @@ func (b *bank) Handle() {
 
 func (b *bank) createUsers(numberOfUsers int) {
 	for i := 0; i < numberOfUsers; i++ {
-		b.userRepository.CreateNewUser()
+		b.userManager.CreateNewUser()
 	}
 }
 

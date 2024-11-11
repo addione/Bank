@@ -6,21 +6,21 @@ import (
 
 const DBName = "New"
 
-type repositorydiContainer struct {
+type RepositoryDIContainer struct {
 	userRepository *UserRepo
 	mongoClient    *dependencies.CommonMongo
 }
 
-func NewRepositoryDiContainer() *repositorydiContainer {
+func NewRepositoryDiContainer() *RepositoryDIContainer {
 	cm := dependencies.NewCommonMongo()
 
-	rdi := &repositorydiContainer{
+	rdi := &RepositoryDIContainer{
 		mongoClient: cm,
 	}
 	rdi.userRepository = newUserRepository(rdi)
 	return rdi
 }
 
-func (di *repositorydiContainer) GetUserRepo() *UserRepo {
+func (di *RepositoryDIContainer) GetUserRepo() *UserRepo {
 	return di.userRepository
 }
