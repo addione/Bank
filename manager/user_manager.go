@@ -12,7 +12,7 @@ type UserManager struct {
 	userRepo *repository.UserRepo
 }
 
-func newUserManager(mdi *managerDIContainer) *UserManager {
+func newUserManager(mdi *ManagerDIContainer) *UserManager {
 	return &UserManager{
 		userRepo: mdi.repositoryDIContainer.GetUserRepo(),
 	}
