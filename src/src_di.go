@@ -1,13 +1,20 @@
 package src
 
+import "github.com/addione/New/manager"
+
 type srcDiContainer struct {
-	bank *bank
+	bank               *bank
+	managerDIContainer *manager.ManagerDIContainer
 }
 
 func NewSrcDI() *srcDiContainer {
-	return &srcDiContainer{
+
+	sdi := &srcDiContainer{
 		bank: newBank(),
 	}
+	sdi.managerDIContainer = manager.NewManagerDIContainer()
+	sdi.bank = newBank()
+	return sdi
 }
 
 func (sdi *srcDiContainer) GetBank() *bank {

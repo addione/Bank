@@ -8,14 +8,14 @@ const DBName = "New"
 
 type RepositoryDIContainer struct {
 	userRepository *UserRepo
-	mongoClient    *dependencies.CommonMongo
+	DependenciesDI *dependencies.DependenciesDI
 }
 
 func NewRepositoryDiContainer() *RepositoryDIContainer {
-	cm := dependencies.NewCommonMongo()
+	ddi := dependencies.NewDependenciesDIProvider()
 
 	rdi := &RepositoryDIContainer{
-		mongoClient: cm,
+		DependenciesDI: ddi,
 	}
 	rdi.userRepository = newUserRepository(rdi)
 	return rdi

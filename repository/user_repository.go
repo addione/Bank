@@ -10,18 +10,17 @@ import (
 )
 
 type UserRepo struct {
-	mongoClient *mongo.Collection
+	userCollection *mongo.Collection
 }
 
 func newUserRepository(rdi *RepositoryDIContainer) *UserRepo {
-
 	return &UserRepo{
-		mongoClient: rdi.mongoClient.GetMongoClient(DBName, models.UserCollectionName),
+		userCollection: rdi.DependenciesDI.GetMongoCollection(DBName, models.UserCollectionName),
 	}
 }
 
 func (u *UserRepo) CreateNewUser(user *models.User) {
-	result, err := u.mongoClient.InsertOne(context.TODO(), user)
+	result, err := u.userCollection.InsertOne(context.TODO(), user)
 	if err != nil {
 		panic(err)
 	}
@@ -30,6 +29,6 @@ func (u *UserRepo) CreateNewUser(user *models.User) {
 
 func (u *UserRepo) CleanDatabase() {
 	filter := bson.D{}
-	result, _ := u.mongoClient.DeleteMany(context.TODO(), filter)
+	result, _ := u.userCollection.DeleteMany(context.TODO(), filter)
 	fmt.Println(result)
 }

@@ -2,18 +2,18 @@ package manager
 
 import "github.com/addione/New/repository"
 
-type managerDIContainer struct {
+type ManagerDIContainer struct {
 	repositoryDIContainer *repository.RepositoryDIContainer
 	userManager           *UserManager
 }
 
-func NewManagerDIContainer() *managerDIContainer {
-	mdi := &managerDIContainer{}
+func NewManagerDIContainer() *ManagerDIContainer {
+	mdi := &ManagerDIContainer{}
 	mdi.repositoryDIContainer = repository.NewRepositoryDiContainer()
 	mdi.userManager = newUserManager(mdi)
 	return mdi
 }
 
-func (mdi *managerDIContainer) GetUserManager() *UserManager {
+func (mdi *ManagerDIContainer) GetUserManager() *UserManager {
 	return mdi.userManager
 }
