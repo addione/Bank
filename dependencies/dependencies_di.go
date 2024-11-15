@@ -1,15 +1,19 @@
 package dependencies
 
-import "go.mongodb.org/mongo-driver/mongo"
+import (
+	"database/sql"
+
+	"go.mongodb.org/mongo-driver/mongo"
+)
 
 type DependenciesDI struct {
 	mongo *commonMongo
-	mysql *mysql
+	mysql *commonMysql
 }
 
 func NewDependenciesDIProvider() *DependenciesDI {
 	return &DependenciesDI{
-		mongo: newCommonMongo(),
+		mongo: newMongo(),
 		mysql: newMysql(),
 	}
 }
@@ -18,6 +22,6 @@ func (ddi *DependenciesDI) GetMongoCollection(dbName, collectionName string) *mo
 	return ddi.mongo.getMongoClient(dbName, collectionName)
 }
 
-func (ddi *DependenciesDI) GetMysql() *mysql {
-	return ddi.mysql
+func (ddi *DependenciesDI) GetMysql(dbName string) *sql.DB {
+	return ddi.mysql.getMysqlClient(dbName)
 }
