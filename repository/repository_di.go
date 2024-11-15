@@ -4,14 +4,15 @@ import (
 	"github.com/addione/New/dependencies"
 )
 
-const DBName = "New"
+const DBName = "bank"
+const MySQLDBName = "bank"
 
 type RepositoryDIContainer struct {
 	userRepository *UserRepo
 	DependenciesDI *dependencies.DependenciesDI
 }
 
-func NewRepositoryDiContainer() *RepositoryDIContainer {
+func NewDIContainer() *RepositoryDIContainer {
 	ddi := dependencies.NewDependenciesDIProvider()
 
 	rdi := &RepositoryDIContainer{

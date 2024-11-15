@@ -9,7 +9,7 @@ type ManagerDIContainer struct {
 
 func NewManagerDIContainer() *ManagerDIContainer {
 	mdi := &ManagerDIContainer{}
-	mdi.repositoryDIContainer = repository.NewRepositoryDiContainer()
+	mdi.repositoryDIContainer = repository.NewDIContainer()
 	mdi.userManager = newUserManager(mdi)
 	return mdi
 }
