@@ -1,4 +1,4 @@
-package main
+package practice
 
 func calculateProfit(revenue, expenses, taxRate float64) float64 {
 

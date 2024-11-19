@@ -13,13 +13,16 @@ const (
 )
 
 type User struct {
-	Name      string  `json:"name"`
-	ID        int64   `bson:"mysql_id"`
-	Email     string  `json:"email"`
-	Pass      string  `json:"password"`
-	Balance   float64 `json:"balance"`
-	Details   Details
-	CreatedAt time.Time `bson:"created_at"`
+	Name        string  `json:"name"`
+	ID          int64   `bson:"mysql_id"`
+	Email       string  `json:"email"`
+	Pass        string  `json:"password"`
+	Balance     float64 `json:"balance"`
+	PhoneNumber string  `bson:"phone_number"`
+	Salutation  string
+	Details     Details
+	Address     string
+	CreatedAt   time.Time `bson:"created_at"`
 }
 
 type Details struct {
