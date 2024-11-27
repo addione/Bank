@@ -14,6 +14,8 @@ func main() {
 	server.GET("/new-user", sdb.CreateUser)
 	server.GET("/clean-db", sdb.CleanDb)
 
+	server.GET("/list-users", sdb.ListUsers)
+
 	server.Run(":8091")
 
 	// structs()

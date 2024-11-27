@@ -42,6 +42,21 @@ func (u *UserRepo) CleanDatabase() {
 	fmt.Println(result)
 }
 
+func (u *UserRepo) GetAllUsers() []*models.User {
+	var users []*models.User
+	filter := bson.D{}
+	result, err := u.userCollection.Find(context.TODO(), filter)
+	if err != nil {
+		panic(err)
+	}
+	err = result.All(context.TODO(), &users)
+	if err != nil {
+		panic(err)
+	}
+
+	return users
+}
+
 func (u *UserRepo) insertIntoMysqlTable(user *models.User) (int64, error) {
 	query := "INSERT into users(email, phone_number, password, status) VALUES(?, ?, ?, ?)"
 	ctx, cancelfunc := context.WithTimeout(context.Background(), 100*time.Second)
