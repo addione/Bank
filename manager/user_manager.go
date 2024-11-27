@@ -18,8 +18,8 @@ func newUserManager(mdi *ManagerDIContainer) *UserManager {
 	}
 }
 
-func (um *UserManager) CreateNewUser() {
-	um.userRepo.CreateNewUser(um.getUser())
+func (um *UserManager) CreateNewUser() *models.User {
+	return um.userRepo.CreateNewUser(um.getUser())
 
 }
 

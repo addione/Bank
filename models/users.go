@@ -37,3 +37,6 @@ type UserMysql struct {
 	Password    string `json:"password"`
 	Status      string
 }
+
+type UserRequest struct {
+}
