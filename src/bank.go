@@ -2,8 +2,10 @@ package src
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/addione/New/manager"
+	"github.com/gin-gonic/gin"
 )
 
 func loginUser() {
@@ -43,6 +45,16 @@ func (b *bank) Handle() {
 	}
 
 	return
+}
+
+func (b *bank) CleanDb(context *gin.Context) {
+	b.userManager.CleanDatabase()
+	context.JSON(http.StatusOK, "ok")
+}
+
+func (b *bank) CreateUser(context *gin.Context) {
+
+	context.JSON(http.StatusOK, b.userManager.CreateNewUser())
 }
 
 func (b *bank) createUsers(numberOfUsers int) {

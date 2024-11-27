@@ -1,14 +1,24 @@
 package main
 
 import (
-	"github.com/addione/New/practice"
+	"github.com/addione/New/src"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
 
+	server := gin.Default()
+	sdb := src.NewSrcDI().GetBank()
+
+	server.GET("/new-user", sdb.CreateUser)
+	server.GET("/clean-db", sdb.CleanDb)
+
+	server.Run(":8091")
+
 	// structs()
 
-	practice.Routines()
+	// practice.Routines()
 
 	// sd := src.NewSrcDI()
 
@@ -25,3 +35,9 @@ func main() {
 	// 	sd.GetBank().Handle()
 	// }
 }
+
+// func createUser(context *gin.Context) {
+// 	manager := manager.NewManagerDIContainer().GetUserManager()
+// 	manager.CreateNewUser()
+// 	context.JSON()
+// }

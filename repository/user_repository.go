@@ -23,7 +23,7 @@ func newUserRepository(rdi *RepositoryDIContainer) *UserRepo {
 	}
 }
 
-func (u *UserRepo) CreateNewUser(user *models.User) {
+func (u *UserRepo) CreateNewUser(user *models.User) *models.User {
 	userId, _ := u.insertIntoMysqlTable(user)
 	user.ID = userId
 	fmt.Println(user)
@@ -31,7 +31,8 @@ func (u *UserRepo) CreateNewUser(user *models.User) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(userId)
+
+	return user
 }
 
 func (u *UserRepo) CleanDatabase() {
