@@ -27,6 +27,10 @@ func (um *UserManager) CleanDatabase() {
 	um.userRepo.CleanDatabase()
 }
 
+func (um *UserManager) ListUsers() []*models.User {
+	return um.userRepo.GetAllUsers()
+}
+
 func (um *UserManager) getUser() *models.User {
 
 	var name string
