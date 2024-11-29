@@ -1,6 +1,7 @@
 package manager
 
 import (
+	"errors"
 	"time"
 
 	"github.com/Pallinder/go-randomdata"
@@ -18,8 +19,13 @@ func newUserManager(mdi *ManagerDIContainer) *UserManager {
 	}
 }
 
-func (um *UserManager) CreateNewUser() *models.User {
-	return um.userRepo.CreateNewUser(um.getUser())
+func (um *UserManager) CreateNewUser(ur *models.UserRequest) (*models.User, error) {
+	user, _ := um.userRepo.GetUserByEmail(ur.Email)
+	if user.ID != 0 {
+		return nil, errors.New("user Already Exists")
+	}
+
+	return um.userRepo.CreateNewUser(um.PrepareUser(ur)), nil
 
 }
 
@@ -29,6 +35,22 @@ func (um *UserManager) CleanDatabase() {
 
 func (um *UserManager) ListUsers() []*models.User {
 	return um.userRepo.GetAllUsers()
+}
+
+func (um *UserManager) PrepareUser(u *models.UserRequest) *models.User {
+	return &models.User{
+		Name:        u.Name,
+		Email:       u.Email,
+		PhoneNumber: u.PhoneNumber,
+		Balance:     0,
+		Address:     u.Address,
+		Details:     u.Details,
+	}
+}
+
+func (um *UserManager) CreateNewUserBO() *models.User {
+	return um.userRepo.CreateNewUser(um.getUser())
+
 }
 
 func (um *UserManager) getUser() *models.User {

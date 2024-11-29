@@ -22,7 +22,7 @@ func newMysql() *commonMysql {
 }
 
 func (m *commonMysql) getMysqlClient(dbName string) *sql.DB {
-	db, err := sql.Open("mysql", m.uri+"/"+dbName)
+	db, err := sql.Open("mysql", m.uri+"/"+dbName+"?parseTime=true")
 	if err != nil {
 		panic(err.Error())
 	}
