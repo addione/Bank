@@ -1,22 +1,17 @@
 package main
 
-import (
-	"github.com/addione/New/src"
-
-	"github.com/gin-gonic/gin"
-)
-
 func main() {
+	handleHttp()
 
-	server := gin.Default()
-	sdb := src.NewSrcDI().GetBank()
+	// server := gin.Default()
+	// sdb := src.NewSrcDI().GetBank()
 
-	server.GET("/new-user", sdb.CreateUser)
-	server.GET("/clean-db", sdb.CleanDb)
+	// server.POST("/new-user", sdb.CreateUser)
+	// server.GET("/clean-db", sdb.CleanDb)
 
-	server.GET("/list-users", sdb.ListUsers)
+	// server.GET("/list-users", sdb.ListUsers)
 
-	server.Run(":8091")
+	// server.Run(":8091")
 
 	// structs()
 

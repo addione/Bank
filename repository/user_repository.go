@@ -57,8 +57,15 @@ func (u *UserRepo) GetAllUsers() []*models.User {
 	return users
 }
 
+func (u *UserRepo) GetUserByEmail(email string) (*models.UserMysql, error) {
+	row := u.userTable.QueryRow(`SELECT id, created_at from users WHERE email = ?`, email)
+	var user models.UserMysql
+	err := row.Scan(&user.ID, &user.CreatedAt)
+	return &user, err
+}
+
 func (u *UserRepo) insertIntoMysqlTable(user *models.User) (int64, error) {
-	query := "INSERT into users(email, phone_number, password, status) VALUES(?, ?, ?, ?)"
+	query := "INSERT into users(email, phone_number, password, status) VALUES(?, ?, ?, ?) ON DUPLICATE KEY UPDATE phone_number=?"
 	ctx, cancelfunc := context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancelfunc()
 
@@ -66,7 +73,7 @@ func (u *UserRepo) insertIntoMysqlTable(user *models.User) (int64, error) {
 	if err != nil {
 		panic(err)
 	}
-	res, _ := stmt.ExecContext(ctx, user.Email, user.PhoneNumber, user.Pass, models.STATUS_NEW)
+	res, _ := stmt.ExecContext(ctx, user.Email, user.PhoneNumber, user.Pass, models.STATUS_NEW, user.PhoneNumber)
 	stmt.Close()
 	return res.LastInsertId()
 }

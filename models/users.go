@@ -36,7 +36,14 @@ type UserMysql struct {
 	PhoneNumber string
 	Password    string `json:"password"`
 	Status      string
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
 }
 
 type UserRequest struct {
+	Name        string `binding:"required"`
+	Email       string `json:"email"`
+	PhoneNumber string `bson:"phone_number"`
+	Address     string
+	Details     Details
 }

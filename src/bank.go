@@ -57,14 +57,9 @@ func (b *bank) ListUsers(context *gin.Context) {
 	context.JSON(http.StatusOK, b.userManager.ListUsers())
 }
 
-func (b *bank) CreateUser(context *gin.Context) {
-
-	context.JSON(http.StatusOK, b.userManager.CreateNewUser())
-}
-
 func (b *bank) createUsers(numberOfUsers int) {
 	for i := 0; i < numberOfUsers; i++ {
-		b.userManager.CreateNewUser()
+		b.userManager.CreateNewUserBO()
 	}
 }
 
