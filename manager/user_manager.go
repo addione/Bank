@@ -29,6 +29,14 @@ func (um *UserManager) CreateNewUser(ur *models.UserRequest) (*models.User, erro
 
 }
 
+func (um *UserManager) GetUserById(userId int64) (*models.UserMysql, error) {
+	user, err := um.userRepo.GetUserById(userId)
+	if err != nil && err.Error() == "sql: no rows in result set" {
+		return nil, errors.New("user not found")
+	}
+	return user, nil
+}
+
 func (um *UserManager) CleanDatabase() {
 	um.userRepo.CleanDatabase()
 }

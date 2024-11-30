@@ -2,6 +2,7 @@ package src
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/addione/New/manager"
 	"github.com/addione/New/models"
@@ -36,4 +37,18 @@ func (uc *userController) CreateUser(context *gin.Context) {
 	}
 
 	context.JSON(http.StatusOK, u)
+}
+
+func (uc *userController) GetUserById(context *gin.Context) {
+	userId, err := strconv.ParseInt(context.Param("id"), 10, 64)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": "could not parse id"})
+		return
+	}
+	user, err := uc.userManager.GetUserById(userId)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"user": user})
 }

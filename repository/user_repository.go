@@ -64,6 +64,16 @@ func (u *UserRepo) GetUserByEmail(email string) (*models.UserMysql, error) {
 	return &user, err
 }
 
+func (u *UserRepo) GetUserById(id int64) (*models.UserMysql, error) {
+	row := u.userTable.QueryRow(`SELECT id,email, created_at from users WHERE id = ?`, id)
+	var user models.UserMysql
+	err := row.Scan(&user.ID, &user.Email, &user.CreatedAt)
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
 func (u *UserRepo) insertIntoMysqlTable(user *models.User) (int64, error) {
 	query := "INSERT into users(email, phone_number, password, status) VALUES(?, ?, ?, ?) ON DUPLICATE KEY UPDATE phone_number=?"
 	ctx, cancelfunc := context.WithTimeout(context.Background(), 100*time.Second)
