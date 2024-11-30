@@ -1,1 +1,1 @@
-GET http://localhost:8091/list-users
+GET http://localhost:8091/user/107124

@@ -52,11 +52,6 @@ func (b *bank) CleanDb(context *gin.Context) {
 	context.JSON(http.StatusOK, "ok")
 }
 
-func (b *bank) ListUsers(context *gin.Context) {
-
-	context.JSON(http.StatusOK, b.userManager.ListUsers())
-}
-
 func (b *bank) createUsers(numberOfUsers int) {
 	for i := 0; i < numberOfUsers; i++ {
 		b.userManager.CreateNewUserBO()

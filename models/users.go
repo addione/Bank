@@ -47,3 +47,8 @@ type UserRequest struct {
 	Address     string
 	Details     Details
 }
+
+type UserUpdateRequest struct {
+	Email       string `json:"email"`
+	PhoneNumber string `json:"phone_number"`
+}

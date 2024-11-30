@@ -57,6 +57,19 @@ func (u *UserRepo) GetAllUsers() []*models.User {
 	return users
 }
 
+func (u *UserRepo) UpdateUserByID(userId int64, ur *models.UserUpdateRequest) error {
+	query := "UPDATE users set email =?, phone_number =? WHERE id=?"
+	ctx, cancelfunc := context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancelfunc()
+	stmt, err := u.userTable.PrepareContext(ctx, query)
+	if err != nil {
+		panic(err)
+	}
+	_, err = stmt.ExecContext(ctx, ur.Email, ur.PhoneNumber, userId)
+	stmt.Close()
+	return err
+}
+
 func (u *UserRepo) GetUserByEmail(email string) (*models.UserMysql, error) {
 	row := u.userTable.QueryRow(`SELECT id, created_at from users WHERE email = ?`, email)
 	var user models.UserMysql
