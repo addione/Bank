@@ -19,6 +19,10 @@ func newUserManager(mdi *ManagerDIContainer) *UserManager {
 	}
 }
 
+func (um *UserManager) UpdateUser(userId int64, ur *models.UserUpdateRequest) error {
+	return um.userRepo.UpdateUserByID(userId, ur)
+}
+
 func (um *UserManager) CreateNewUser(ur *models.UserRequest) (*models.User, error) {
 	user, _ := um.userRepo.GetUserByEmail(ur.Email)
 	if user.ID != 0 {

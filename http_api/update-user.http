@@ -1,0 +1,7 @@
+PUT http://localhost:8091/user/107121
+Content-Type: application/json
+
+{
+    "email" : "new-emailfxx@email.com",
+    "phone_number" : "012912012"
+}
