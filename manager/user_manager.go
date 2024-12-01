@@ -4,6 +4,8 @@ import (
 	"errors"
 	"time"
 
+	"github.com/addione/New/helpers"
+
 	"github.com/Pallinder/go-randomdata"
 	"github.com/addione/New/models"
 	"github.com/addione/New/repository"
@@ -11,11 +13,14 @@ import (
 
 type UserManager struct {
 	userRepo *repository.UserRepo
+	hash     *helpers.Hashing
 }
 
 func newUserManager(mdi *ManagerDIContainer) *UserManager {
+
 	return &UserManager{
 		userRepo: mdi.repositoryDIContainer.GetUserRepo(),
+		hash:     mdi.helpers.GetHashing(),
 	}
 }
 
@@ -28,8 +33,11 @@ func (um *UserManager) CreateNewUser(ur *models.UserRequest) (*models.User, erro
 	if user.ID != 0 {
 		return nil, errors.New("user Already Exists")
 	}
-
-	return um.userRepo.CreateNewUser(um.PrepareUser(ur)), nil
+	preparedUser, err := um.PrepareUser(ur)
+	if err != nil {
+		return nil, err
+	}
+	return um.userRepo.CreateNewUser(preparedUser), nil
 
 }
 
@@ -49,7 +57,11 @@ func (um *UserManager) ListUsers() []*models.User {
 	return um.userRepo.GetAllUsers()
 }
 
-func (um *UserManager) PrepareUser(u *models.UserRequest) *models.User {
+func (um *UserManager) PrepareUser(u *models.UserRequest) (*models.User, error) {
+	password, err := um.hash.HashPassword(u.Password)
+	if err != nil {
+		return &models.User{}, err
+	}
 	return &models.User{
 		Name:        u.Name,
 		Email:       u.Email,
@@ -57,7 +69,8 @@ func (um *UserManager) PrepareUser(u *models.UserRequest) *models.User {
 		Balance:     0,
 		Address:     u.Address,
 		Details:     u.Details,
-	}
+		Pass:        password,
+	}, nil
 }
 
 func (um *UserManager) CreateNewUserBO() *models.User {
@@ -79,10 +92,12 @@ func (um *UserManager) getUser() *models.User {
 
 	lastname := randomdata.LastName()
 
+	password, _ := um.hash.HashPassword("test")
+
 	user := models.User{
 		Name:        name,
 		Email:       name + lastname + `@gmail.com`,
-		Pass:        "pass",
+		Pass:        password,
 		PhoneNumber: randomdata.PhoneNumber(),
 		Balance:     float64(randomdata.Number(1000, 2000000)),
 		Salutation:  salutation,

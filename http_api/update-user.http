@@ -1,7 +1,7 @@
-PUT http://localhost:8091/user/107121
+PUT http://localhost:8091/user/107124
 Content-Type: application/json
 
 {
-    "email" : "new-emailfxx@email.com",
-    "phone_number" : "012912012"
+    "email" : "new-emailfxdx@email.com",
+    "PhoneNumber" : "0129120dddd12"
 }
