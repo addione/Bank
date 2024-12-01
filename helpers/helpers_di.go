@@ -1,15 +1,21 @@
 package helpers
 
 type HelpersDIContainer struct {
-	Hashing *Hashing
+	hashing   *Hashing
+	jwtHelper *JwtHelper
 }
 
 func NewHelpersDIContainer() *HelpersDIContainer {
 	return &HelpersDIContainer{
-		Hashing: newHashing(),
+		hashing:   newHashing(),
+		jwtHelper: newJwtHelper(),
 	}
 }
 
 func (hdi *HelpersDIContainer) GetHashing() *Hashing {
-	return hdi.Hashing
+	return hdi.hashing
+}
+
+func (hdi *HelpersDIContainer) GetJwtTokenHelper() *JwtHelper {
+	return hdi.jwtHelper
 }

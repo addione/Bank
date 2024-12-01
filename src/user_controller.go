@@ -95,10 +95,11 @@ func (uc *userController) Login(ctx *gin.Context) {
 		return
 	}
 
-	err = uc.userManager.ValidateCredentials(loginParams)
+	token, err := uc.userManager.ValidateCredentialsAndGetToken(loginParams)
 	if err != nil {
 		ctx.JSON(http.StatusUnauthorized, gin.H{"message": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"status": "ok"})
+
+	ctx.JSON(http.StatusOK, gin.H{"token": token})
 }

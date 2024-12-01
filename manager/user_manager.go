@@ -14,6 +14,7 @@ import (
 type UserManager struct {
 	userRepo *repository.UserRepo
 	hash     *helpers.Hashing
+	jwt      *helpers.JwtHelper
 }
 
 func newUserManager(mdi *ManagerDIContainer) *UserManager {
@@ -21,6 +22,7 @@ func newUserManager(mdi *ManagerDIContainer) *UserManager {
 	return &UserManager{
 		userRepo: mdi.repositoryDIContainer.GetUserRepo(),
 		hash:     mdi.helpers.GetHashing(),
+		jwt:      mdi.helpers.GetJwtTokenHelper(),
 	}
 }
 
@@ -112,13 +114,20 @@ func (um *UserManager) getUser() *models.User {
 	return &user
 }
 
-func (um *UserManager) ValidateCredentials(loginParams *models.UserLoginRequest) error {
-	hashedPassword, err := um.userRepo.ValidateAndGetCredentials(loginParams)
+func (um *UserManager) ValidateCredentialsAndGetToken(loginParams *models.UserLoginRequest) (string, error) {
+	user, err := um.userRepo.ValidateAndGetCredentials(loginParams)
 	if err != nil {
-		return err
+		return "", err
 	}
-	if !um.hash.CheckPassword(loginParams.Password, hashedPassword) {
-		return errors.New("invalid username or password")
+	if !um.hash.CheckPassword(loginParams.Password, user.Password) {
+		return " ", errors.New("invalid username or password")
 	}
-	return nil
+
+	token, err := um.jwt.GenerateToken(user.Email, user.ID)
+
+	if err != nil {
+		return token, err
+	}
+
+	return token, nil
 }
