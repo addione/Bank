@@ -109,14 +109,11 @@ func (u *UserRepo) cleanMysqlDB() {
 	stmt.ExecContext(ctx)
 }
 
-func (u *UserRepo) ValidateAndGetCredentials(params *models.UserLoginRequest) (string, error) {
-	query := `SELECT password from users where email=?`
+func (u *UserRepo) ValidateAndGetCredentials(params *models.UserLoginRequest) (*models.UserMysql, error) {
+	query := `SELECT id, email, password from users where email=?`
 	row := u.userTable.QueryRow(query, params.Email)
 
-	var password string
-	err := row.Scan(&password)
-	if err != nil {
-		return password, err
-	}
-	return password, nil
+	var user models.UserMysql
+	err := row.Scan(&user.ID, &user.Email, &user.Password)
+	return &user, err
 }
