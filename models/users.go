@@ -46,6 +46,7 @@ type UserRequest struct {
 	PhoneNumber string `bson:"phone_number"`
 	Address     string
 	Details     Details
+	Password    string `binding:"required"`
 }
 
 type UserUpdateRequest struct {
