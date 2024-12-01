@@ -25,7 +25,7 @@ func (uc *userController) CreateUser(context *gin.Context) {
 
 	err := context.ShouldBindJSON(&user)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, err)
+		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
 
@@ -85,4 +85,20 @@ func (uc *userController) getAndvalidateUserById(context *gin.Context) (*models.
 	}
 	return user, nil
 
+}
+
+func (uc *userController) Login(ctx *gin.Context) {
+	var loginParams *models.UserLoginRequest
+	err := ctx.BindJSON(&loginParams)
+	if err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+
+	err = uc.userManager.ValidateCredentials(loginParams)
+	if err != nil {
+		ctx.JSON(http.StatusUnauthorized, gin.H{"message": err.Error()})
+		return
+	}
+	ctx.JSON(http.StatusOK, gin.H{"status": "ok"})
 }

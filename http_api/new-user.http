@@ -1,9 +1,0 @@
-POST http://localhost:8091/new-user
-Content-Type: application/json
-
-{
-    "name" : "new User",
-    "email" : "new-email12ff1@email.com",
-    "address" : "testAddress",
-    "Phonenumber" : "121232fe3113"
-}
