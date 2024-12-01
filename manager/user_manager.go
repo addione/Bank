@@ -111,3 +111,14 @@ func (um *UserManager) getUser() *models.User {
 
 	return &user
 }
+
+func (um *UserManager) ValidateCredentials(loginParams *models.UserLoginRequest) error {
+	hashedPassword, err := um.userRepo.ValidateAndGetCredentials(loginParams)
+	if err != nil {
+		return err
+	}
+	if !um.hash.CheckPassword(loginParams.Password, hashedPassword) {
+		return errors.New("invalid username or password")
+	}
+	return nil
+}

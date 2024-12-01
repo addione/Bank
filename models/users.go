@@ -53,3 +53,8 @@ type UserUpdateRequest struct {
 	Email       string `json:"email"`
 	PhoneNumber string `json:"phone_number"`
 }
+
+type UserLoginRequest struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
