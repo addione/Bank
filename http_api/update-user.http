@@ -1,6 +1,6 @@
 PUT http://localhost:8091/user/107124
 Content-Type: application/json
-authorization: Bearer "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldy1lbWFpbF8wQGVtYWlsLmNvbSIsImV4cCI6MTczMzE5MDUwMSwidXNlcklkIjoxMDcxMjl9.AvdbFCiO7C-O5eW96Tnn7PAFScC7co14cdBPfXzjpzs"
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldy1lbWFpbF8wQGVtYWlsLmNvbSIsImV4cCI6MTczMzE5MDg5MiwidXNlcklkIjoxMDcxMjl9.2rmD68GFFnV6P9wSykLS-ySpnTiEs_JPtnJWQj23MFk
 
 {
     "email" : "new-emailfxdx@email.com",

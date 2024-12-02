@@ -1,7 +1,6 @@
 package src
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -58,13 +57,11 @@ func (uc *userController) UpdateUser(context *gin.Context) {
 		return
 	}
 
-	data, err := helpers.NewHelpersDIContainer().GetJwtTokenHelper().VerifyToken(token)
+	_, err := helpers.NewHelpersDIContainer().GetJwtTokenHelper().VerifyToken(token)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 	}
-
-	fmt.Println(data)
 
 	user, err := uc.getAndvalidateUserById(context)
 	if err != nil {
