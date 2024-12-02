@@ -1,7 +1,8 @@
 PUT http://localhost:8091/user/107124
 Content-Type: application/json
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldy1lbWFpbF8wQGVtYWlsLmNvbSIsImV4cCI6MTczMzE5MDg5MiwidXNlcklkIjoxMDcxMjl9.2rmD68GFFnV6P9wSykLS-ySpnTiEs_JPtnJWQj23MFk
 
 {
     "email" : "new-emailfxdx@email.com",
-    "PhoneNumber" : "0129120dddd12"
+    "phone_number" : "012912012"
 }
