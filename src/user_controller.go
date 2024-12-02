@@ -1,9 +1,11 @@
 package src
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
+	"github.com/addione/New/helpers"
 	"github.com/addione/New/manager"
 	"github.com/addione/New/models"
 	"github.com/gin-gonic/gin"
@@ -49,6 +51,21 @@ func (uc *userController) GetUserById(context *gin.Context) {
 }
 
 func (uc *userController) UpdateUser(context *gin.Context) {
+	token := context.Request.Header.Get("Authorization")
+
+	if token == "" {
+		context.JSON(http.StatusUnauthorized, gin.H{"message": "No TokenFound"})
+		return
+	}
+
+	data, err := helpers.NewHelpersDIContainer().GetJwtTokenHelper().VerifyToken(token)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		return
+	}
+
+	fmt.Println(data)
+
 	user, err := uc.getAndvalidateUserById(context)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
