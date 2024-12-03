@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/addione/New/middlewares"
 	"github.com/addione/New/src"
 	"github.com/gin-gonic/gin"
 )
@@ -16,13 +17,16 @@ func addRoutes(server *gin.Engine) {
 	sdb := src.NewSrcDI().GetBank()
 	su := src.NewSrcDI().GetUserController()
 
+	auth := server.Group("/")
+	auth.Use(middlewares.Authenticate)
+
 	server.GET("/user/:id", su.GetUserById)
-	server.GET("/list-users", su.ListUsers, su.ListUsers, su.ListUsers)
+	auth.GET("/list-users", su.ListUsers)
 
 	server.GET("/clean-db", sdb.CleanDb)
 
 	server.POST("/new-user", su.CreateUser)
 	server.POST("/login", su.Login)
-	server.PUT("/user/:id", su.UpdateUser)
+	auth.PUT("/user/:id", middlewares.Authenticate, su.UpdateUser)
 
 }
