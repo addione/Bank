@@ -1,1 +1,2 @@
-GET http://localhost:8091/list-users
+GET http://localhost:8091/users/list
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldy1lbWFpbF8wQGVtYWlsLmNvbSIsImV4cCI6MTczMzI3ODA5OCwidXNlcklkIjoxMDcxMjl9.D-Hf3lP8uX4YY6yls9tbRpfNccACT1yAoRerhLfXny0

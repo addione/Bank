@@ -3,9 +3,8 @@ package dependencies
 
 import (
 	"context"
-	"os"
 
-	"github.com/joho/godotenv"
+	"github.com/addione/New/helpers"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
@@ -15,8 +14,7 @@ type commonMongo struct {
 }
 
 func newMongo() (cm *commonMongo) {
-	godotenv.Load()
-	uri := os.Getenv("mongouri")
+	uri, _ := helpers.GetEnvVariable(helpers.MONGO_URI)
 
 	return &commonMongo{
 		mongoUri: uri,
