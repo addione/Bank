@@ -1,6 +1,6 @@
-PUT http://localhost:8091/user/107124
+PUT http://localhost:8091/users/107124
 Content-Type: application/json
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldy1lbWFpbF8wQGVtYWlsLmNvbSIsImV4cCI6MTczMzE5MDg5MiwidXNlcklkIjoxMDcxMjl9.2rmD68GFFnV6P9wSykLS-ySpnTiEs_JPtnJWQj23MFk
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ldy1lbWFpbF8wQGVtYWlsLmNvbSIsImV4cCI6MTczMzI3ODA5OCwidXNlcklkIjoxMDcxMjl9.D-Hf3lP8uX4YY6yls9tbRpfNccACT1yAoRerhLfXny0
 
 {
     "email" : "new-emailfxdx@email.com",

@@ -1,9 +1,9 @@
-POST http://localhost:8091/new-user
+POST http://localhost:8091/users
 Content-Type: application/json
 
 {
     "name" : "new User",
-    "email" : "new-email_0@email.com",
+    "email" : "new-email_d0@email.com",
     "address" : "testAddress",
     "phone_number" : "121232fe3113",
     "Password" : "password",

@@ -3,12 +3,14 @@ package helpers
 type HelpersDIContainer struct {
 	hashing   *Hashing
 	jwtHelper *JwtHelper
+	envHelper *EnvHelper
 }
 
 func NewHelpersDIContainer() *HelpersDIContainer {
 	return &HelpersDIContainer{
 		hashing:   newHashing(),
 		jwtHelper: newJwtHelper(),
+		envHelper: newEnvHelper(),
 	}
 }
 

@@ -2,10 +2,9 @@ package dependencies
 
 import (
 	"database/sql"
-	"os"
 
+	"github.com/addione/New/helpers"
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/joho/godotenv"
 )
 
 type commonMysql struct {
@@ -13,8 +12,8 @@ type commonMysql struct {
 }
 
 func newMysql() *commonMysql {
-	godotenv.Load(".env")
-	uri := os.Getenv("mysqluri")
+
+	uri, _ := helpers.GetEnvVariable(helpers.MYSQL_URI)
 
 	return &commonMysql{
 		uri: uri,

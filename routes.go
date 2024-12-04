@@ -17,16 +17,16 @@ func addRoutes(server *gin.Engine) {
 	sdb := src.NewSrcDI().GetBank()
 	su := src.NewSrcDI().GetUserController()
 
-	auth := server.Group("/")
-	auth.Use(middlewares.Authenticate)
+	loggedInUser := server.Group("/")
+	loggedInUser.Use(middlewares.Authenticate)
 
-	server.GET("/user/:id", su.GetUserById)
-	auth.GET("/list-users", su.ListUsers)
+	server.GET("/users/:id", su.GetUserById)
+	loggedInUser.GET("/users/list", su.ListUsers)
 
 	server.GET("/clean-db", sdb.CleanDb)
 
-	server.POST("/new-user", su.CreateUser)
+	server.POST("/users", su.CreateUser)
 	server.POST("/login", su.Login)
-	auth.PUT("/user/:id", middlewares.Authenticate, su.UpdateUser)
+	loggedInUser.PUT("/users/:id", su.UpdateUser)
 
 }

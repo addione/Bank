@@ -4,15 +4,26 @@ import "github.com/addione/New/manager"
 
 type srcDiContainer struct {
 	bank               *bank
-	userController     *userController
 	managerDIContainer *manager.ManagerDIContainer
+	controllers        Controllers
+}
+
+type Controllers struct {
+	userController *userController
+}
+
+func NewContollersDI() Controllers {
+	cdi := Controllers{
+		userController: NewUserController(),
+	}
+	return cdi
 }
 
 func NewSrcDI() *srcDiContainer {
 
 	sdi := &srcDiContainer{
-		bank:           newBank(),
-		userController: NewUserController(),
+		bank:        newBank(),
+		controllers: NewContollersDI(),
 	}
 	sdi.managerDIContainer = manager.NewManagerDIContainer()
 	sdi.bank = newBank()
@@ -24,5 +35,5 @@ func (sdi *srcDiContainer) GetBank() *bank {
 }
 
 func (sdi *srcDiContainer) GetUserController() *userController {
-	return NewUserController()
+	return sdi.controllers.userController
 }
