@@ -7,6 +7,7 @@ import (
 
 	"github.com/addione/New/manager"
 	"github.com/addione/New/models"
+	"github.com/addione/New/src/request"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,30 +15,27 @@ type userController struct {
 	userManager *manager.UserManager
 }
 
-func NewUserController() *userController {
-	um := manager.NewManagerDIContainer().GetUserManager()
+func NewUserController(sdi *srcDiContainer) *userController {
+	um := sdi.managerDIContainer.GetUserManager()
 	return &userController{
 		userManager: um,
 	}
 }
 
-func (uc *userController) CreateUser(context *gin.Context) {
-	var user models.UserRequest
-
-	err := context.ShouldBindJSON(&user)
+func (uc *userController) CreateUser(ctx *gin.Context) {
+	createUserParams, err := request.ValidateCreateUser(ctx)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"message": err.Error()})
 		return
 	}
-
-	u, err := uc.userManager.CreateNewUser(&user)
+	u, err := uc.userManager.CreateNewUser(createUserParams)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
+		ctx.JSON(http.StatusBadRequest, gin.H{"message": err.Error()})
 		return
 
 	}
+	ctx.JSON(http.StatusOK, u)
 
-	context.JSON(http.StatusOK, u)
 }
 
 func (uc *userController) GetUserById(context *gin.Context) {
