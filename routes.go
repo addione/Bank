@@ -14,19 +14,20 @@ func handleHttp() {
 }
 
 func addRoutes(server *gin.Engine) {
-	sdb := src.NewSrcDI().GetBank()
-	su := src.NewSrcDI().GetUserController()
+	sdi := src.NewSrcDI()
+	sdb := sdi.GetBank()
+	uc := sdi.GetUserController()
 
 	loggedInUser := server.Group("/")
 	loggedInUser.Use(middlewares.Authenticate)
 
-	server.GET("/users/:id", su.GetUserById)
-	loggedInUser.GET("/users/list", su.ListUsers)
+	server.GET("/users/:id", uc.GetUserById)
+	loggedInUser.GET("/users/list", uc.ListUsers)
 
 	server.GET("/clean-db", sdb.CleanDb)
 
-	server.POST("/users", su.CreateUser)
-	server.POST("/login", su.Login)
-	loggedInUser.PUT("/users/:id", su.UpdateUser)
+	server.POST("/users", uc.CreateUser)
+	server.POST("/login", uc.Login)
+	loggedInUser.PUT("/users/:id", uc.UpdateUser)
 
 }
