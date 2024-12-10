@@ -1,6 +1,8 @@
 package src
 
-import "github.com/addione/New/manager"
+import (
+	"github.com/addione/New/manager"
+)
 
 type srcDiContainer struct {
 	bank               *bank
@@ -12,9 +14,9 @@ type Controllers struct {
 	userController *userController
 }
 
-func NewContollersDI() Controllers {
+func NewContollersDI(sdi *srcDiContainer) Controllers {
 	cdi := Controllers{
-		userController: NewUserController(),
+		userController: NewUserController(sdi),
 	}
 	return cdi
 }
@@ -22,10 +24,10 @@ func NewContollersDI() Controllers {
 func NewSrcDI() *srcDiContainer {
 
 	sdi := &srcDiContainer{
-		bank:        newBank(),
-		controllers: NewContollersDI(),
+		bank: newBank(),
 	}
 	sdi.managerDIContainer = manager.NewManagerDIContainer()
+	sdi.controllers = NewContollersDI(sdi)
 	sdi.bank = newBank()
 	return sdi
 }

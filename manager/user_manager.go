@@ -2,9 +2,11 @@ package manager
 
 import (
 	"errors"
+	"strconv"
 	"time"
 
 	"github.com/addione/New/helpers"
+	"github.com/addione/New/src/request"
 
 	"github.com/Pallinder/go-randomdata"
 	"github.com/addione/New/models"
@@ -30,7 +32,10 @@ func (um *UserManager) UpdateUser(userId int64, ur *models.UserUpdateRequest) er
 	return um.userRepo.UpdateUserByID(userId, ur)
 }
 
-func (um *UserManager) CreateNewUser(ur *models.UserRequest) (*models.User, error) {
+func (um *UserManager) CreateNewUser(ur *request.CreateUserParams) (*models.User, error) {
+	ur.Email = strconv.FormatInt(time.Now().Unix(), 10) + ur.Email
+	// ur.Email = fmt.Sprintf("%f", time.Now().Unix()) + ur.Email
+
 	user, _ := um.userRepo.GetUserByEmail(ur.Email)
 	if user.ID != 0 {
 		return nil, errors.New("user Already Exists")
@@ -59,11 +64,12 @@ func (um *UserManager) ListUsers() []*models.User {
 	return um.userRepo.GetAllUsers()
 }
 
-func (um *UserManager) PrepareUser(u *models.UserRequest) (*models.User, error) {
+func (um *UserManager) PrepareUser(u *request.CreateUserParams) (*models.User, error) {
 	password, err := um.hash.HashPassword(u.Password)
 	if err != nil {
 		return &models.User{}, err
 	}
+
 	return &models.User{
 		Name:        u.Name,
 		Email:       u.Email,
